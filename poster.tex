@@ -1,5 +1,9 @@
 % Gemini theme
 % https://github.com/anishathalye/gemini
+%
+% We try to keep this Overleaf template in sync with the canonical source on
+% GitHub, but it's recommended that you obtain the template directly from
+% GitHub to ensure that you are using the latest version.
 
 \documentclass[final]{beamer}
 
@@ -10,14 +14,21 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
-\usetheme{gemini}
-\usecolortheme{gemini}
+\usetheme{waterloo}
+\usecolortheme{waterloo}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{color, colortbl}
+\usepackage[normalem]{ulem}
+\usepackage{threeparttable}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric}
 \pgfplotsset{compat=1.14}
-\usepackage{anyfontsize}
 
 % ====================
 % Lengths
@@ -32,13 +43,73 @@
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
+\def\blackstars{0}
+
+\newcommand\score[3]{%
+  \pgfmathsetmacro\pgfxa{#1 + 1}%
+  \tikzstyle{scorestars}=[star, star points=5, star point ratio=2.25, draw=black, line width=1pt,inner sep=3.8pt, anchor=outer point 5]%
+  \begin{tikzpicture}[baseline]
+    \foreach \i in {1, ..., #2} {
+      \if\blackstars1
+        \pgfmathparse{\i<=#1 ? "black" : "white"}
+      \else
+        \pgfmathparse{\i<=#1 ? "#3" : "white"}
+      \fi
+      \edef\starcolor{\pgfmathresult}
+      \draw (\i*2.75ex, 1ex) node[name=star\i, scorestars, fill=\starcolor]  {};
+   }
+  \end{tikzpicture}%
+}
+
+\makeatletter
+    \newcommand{\culine}[2]{%
+        \UL@protected\def\temp@uline{\bgroup\markoverwith
+            {\textcolor{#1}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}%
+        \temp@uline{#2}%
+    }
+    \newcommand{\culineheading}[2]{%
+        \def\temp@uline{\bgroup\markoverwith
+            {\textcolor{#1}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}%
+        \temp@uline{#2}%
+    }
+\makeatother
+
+\definecolor{LightGreen3}{HTML}{d9ead3}
+\definecolor{LightYellow3}{HTML}{fff2cc}
+\definecolor{LightCornflowerBlue3}{HTML}{c9daf8}
+\definecolor{LightRed3}{HTML}{f4cccc}
+\definecolor{LightPurple3}{HTML}{d9d2e9}
+
+\definecolor{LightGreen2}{HTML}{b6d7a8}
+\definecolor{LightYellow2}{HTML}{ffe599}
+\definecolor{LightCornflowerBlue2}{HTML}{a4c2f4}
+\definecolor{LightRed2}{HTML}{ea9999}
+\definecolor{LightPurple2}{HTML}{b4a7d6}
+
+\definecolor{LightGreen1}{HTML}{93c47d}
+\definecolor{LightYellow1}{HTML}{ffd966}
+\definecolor{LightCornflowerBlue1}{HTML}{6d9eeb}
+\definecolor{LightRed1}{HTML}{e06666}
+\definecolor{LightPurple1}{HTML}{8e7cc3}
+
+\definecolor{TolPaleBlue}{HTML}{bbccee}
+\definecolor{TolPaleCyan}{HTML}{cceeff}
+\definecolor{TolPaleGreen}{HTML}{ccddaa}
+\definecolor{TolPaleYellow}{HTML}{eeeebb}
+\definecolor{TolPaleRed}{HTML}{ffcccc}
+
+\definecolor{TolLightBlue}{HTML}{77aadd}
+\definecolor{TolOrange}{HTML}{ee8866}
+\definecolor{TolLightYellow}{HTML}{eedd88}
+\definecolor{TolPink}{HTML}{ffaabb}
+\definecolor{TolMint}{HTML}{44bb99}
 % ====================
 % Title
 % ====================
 
 \title{Some fancy title: followed by some more text}
 
-\author{Alyssa P. Hacker \inst{1} \and Ben Bitdiddle \inst{2} \and Lem E. Tweakit \inst{2}}
+\author{\culineheading{black}{Alyssa P. Hacker} \inst{1} \and Ben Bitdiddle \inst{2} \and Lem E. Tweakit \inst{2}}
 
 \institute[shortinst]{\inst{1} Some Institute \samelineand \inst{2} Another Institute}
 
@@ -260,7 +331,7 @@
 
   \end{exampleblock}
 
-  \begin{block}{Nullam vel erat at velit convallis laoreet}
+  \begin{alertblock}{Nullam vel erat at velit convallis laoreet}
 
     Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
     inceptos himenaeos. Phasellus libero enim, gravida sed erat sit amet,
@@ -268,14 +339,14 @@
 
     \begin{table}
       \centering
-      \begin{tabular}{l r r c}
+      \begin{tabular}{l r r c l}
         \toprule
-        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
+        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} & \textbf{Fifth} \\
         \midrule
-        Foo & 13.37 & 384,394 & $\alpha$ \\
-        Bar & 2.17 & 1,392 & $\beta$ \\
-        Baz & 3.14 & 83,742 & $\delta$ \\
-        Qux & 7.59 & 974 & $\gamma$ \\
+        Foo & 13.37 & 384,394 & $\alpha$ & \score{2}{4}{LightRed1} \\
+        Bar & 2.17 & 1,392 & $\beta$ & \score{1}{4}{LightYellow1} \\
+        Baz & 3.14 & 83,742 & $\delta$ & \score{3}{4}{LightCornflowerBlue1} \\
+        Qux & 7.59 & 974 & $\gamma$ & \score{4}{4}{LightGreen1} \\
         \bottomrule
       \end{tabular}
       \caption{A table caption.}
@@ -289,18 +360,25 @@
     commodo quam, non luctus nibh ullamcorper in. Class aptent taciti sociosqu
     ad litora torquent per conubia nostra, per inceptos himenaeos.
 
-    Nulla varius finibus volutpat. Mauris molestie lorem tincidunt, iaculis
-    libero at, gravida ante. Phasellus at felis eu neque suscipit suscipit.
-    Integer ullamcorper, dui nec pretium ornare, urna dolor consequat libero,
-    in feugiat elit lorem euismod lacus. Pellentesque sit amet dolor mollis,
-    auctor urna non, tempus sem.
-
-  \end{block}
+    \vspace{5mm}
+    \begin{columns}
+      \column{0.7\linewidth}
+        Nulla varius finibus volutpat. Mauris molestie lorem tincidunt, iaculis
+        libero at, gravida ante. Phasellus at felis eu neque suscipit suscipit.
+        Integer ullamcorper, dui nec pretium ornare, urna dolor consequat libero,
+        in feugiat elit lorem euismod lacus. Pellentesque sit amet dolor mollis,
+        auctor urna non, tempus sem.
+      \column{0.25\linewidth}
+        \centering
+        \includegraphics[height=5cm, width=5cm]{fig/bit.ly_quantilesketches.png}
+    \end{columns}
+    
+  \end{alertblock}
 
   \begin{block}{References}
 
     \nocite{*}
-    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
+    {\bibliographystyle{plain}\bibliography{poster}}
 
   \end{block}
 
